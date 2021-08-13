@@ -9,10 +9,10 @@ Project:
     Module: SecureTea
 
 """
-import re
+
 from http.server import BaseHTTPRequestHandler
 import io
-from certauth import CertificateAuthority
+
 from pathlib import Path
 import os
 
@@ -36,8 +36,7 @@ class RequestParser(BaseHTTPRequestHandler):
 
     def get_body(self):
         self.len=int(self.headers.get('Content-Length'))
-        post_body=self.rfile.read(self.len)
-        return post_body
+        return self.rfile.read(self.len)
 
 
 
@@ -72,12 +71,13 @@ class GenerateCA:
 
 
     def genca(self):
+        pass
 
 
 
-        self.ca = CertificateAuthority("securetea", "securetea.pem", cert_cache="/tmp/cert")
-        filename = self.ca.cert_for_host(self.host)
-        return filename
+        #self.ca = CertificateAuthority("securetea", "securetea.pem", cert_cache="/tmp/cert")
+        #filename = self.ca.cert_for_host(self.host)
+        #return filename
 
 
 
@@ -112,6 +112,17 @@ def blacklist_counter(value):
     return counter
 
 
+def get3Grams(path):
+    """
+        Generates 3 Grams of the given path and object before vectorizing it
+
+        Args:
+            path(str): A string path or body that has to converted into n grams
+        return:
+              A list containing the n grams
+    """
+    payload = str(path)
+    return [payload[i:i + 1] for i in range(len(payload) - 1)]
 
 
 
